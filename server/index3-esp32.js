@@ -44,7 +44,7 @@ wsServer.on('request', (request) => {
             // Enviar el mensaje a todos los clientes conectados
             connections.forEach((client) => {
                 if (client.connected) {
-                    client.sendUTF(`Emiter: ${message.utf8Data}`);
+                    client.sendUTF(`${message.utf8Data}`);
                 }
             });
         } else if (message.type === 'binary') {
