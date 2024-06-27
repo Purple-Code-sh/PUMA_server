@@ -16,7 +16,7 @@ const server = createServer(app); // Creamos un servidor HTTP utilizando Express
 const io = new Server(server, {
   connectionStateRecovery: {}, // Habilitamos la recuperación del estado de la conexión
   cors: {
-    origin: 'http://localhost:5173', // Aquí especificas el origen permitido
+    origin: '*', // Aquí especificas el origen permitido
     methods: ['GET', 'POST'],
     credentials: true
   }

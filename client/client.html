@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Client</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #messages {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            height: 200px;
+            overflow-y: scroll;
+        }
+        #inputContainer {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>WebSocket Client</h1>
+    <div id="messages"></div>
+    <div id="inputContainer">
+        <input type="text" id="messageInput" placeholder="Enter your message">
+        <button id="sendButton">Send</button>
+    </div>
+    <script>
+        const ws = new WebSocket('ws://192.168.1.17:5000');
+
+        ws.onopen = function(event) {
+            console.log('Connection opened');
+            document.getElementById('messages').innerHTML += '<p>Connection opened</p>';
+        };
+
+        ws.onmessage = function(event) {
+            console.log('Received message:', event.data);
+            document.getElementById('messages').innerHTML += `<p>Received message: ${event.data}</p>`;
+        };
+
+        ws.onclose = function(event) {
+            console.log('Connection closed');
+            document.getElementById('messages').innerHTML += '<p>Connection closed</p>';
+        };
+
+        ws.onerror = function(event) {
+            console.log('Error:', event);
+            document.getElementById('messages').innerHTML += `<p>Error: ${event.data}</p>`;
+        };
+
+        document.getElementById('sendButton').addEventListener('click', function() {
+            const message = document.getElementById('messageInput').value;
+            if (message) {
+                ws.send(message);
+                document.getElementById('messages').innerHTML += `<p>Sent message: ${message}</p>`;
+                document.getElementById('messageInput').value = '';
+            }
+        });
+    </script>
+</body>
+</html>
